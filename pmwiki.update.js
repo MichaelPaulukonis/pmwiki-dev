@@ -32,6 +32,7 @@ var pmwikiupdate = function() {
 
         var cmd = 'unzip {{FILE}} -d {{DEST}}'
                 .replace(/{{FILE}}/, file).replace(/{{DEST}}/, dest);
+        console.log(cmd);
         var child = exec(cmd, function(err, stdout, stderr) {
             console.log(arguments);
             if (err) {
@@ -40,12 +41,6 @@ var pmwikiupdate = function() {
                 console.log('extracted to: ' + dest);
             };
         });
-
-        // process.stdout.write(child);
-
-        // TODO: fs to find the sub-folder name
-        // copy everything in sub-folder up-and-out
-        // delete sub-folder
 
         var contents = fs.readdirSync(dest);
         console.log(contents);
@@ -65,45 +60,7 @@ var pmwikiupdate = function() {
     // soooo.... how to access?
     var addVHostsEntry = function(dest) {
 
-        // so, this worked:
-        // http://localhost:81/projects/pmwiki.13mn8w0/pmwiki-2.2.79/pmwiki.php?n=Main.HomePage
-
-        // <VirtualHost *:81>
-        //     DocumentRoot "C:/dev/xampp/htdocs/projects/pmwiki.13mn8w0"
-        //     ServerName localhost/pmwiki.13mn80w
-        //     <Directory "C:/dev/xampp/htdocs/projects/pmwiki.13mn8w0">
-        //         Options Indexes FollowSymLinks Includes ExecCGI
-        //         Order allow,deny
-        //         Allow from all
-        //     </Directory>
-        // </VirtualHost>
-
-
         var loc = 'c:/dev/xampp/apache/conf/extra/httpd-vhosts.conf';
-        // <VirtualHost *:81>
-        //     DocumentRoot "C:/dev/xampp/htdocs/projects/orion"
-        //     ServerName orion
-        //     <Directory "C:/dev/xampp/htdocs/projects/orion">
-        //         Options Indexes FollowSymLinks Includes ExecCGI
-        //         Order allow,deny
-        //         Allow from all
-        //     </Directory>
-        // </VirtualHost>
-
-        // var template = [
-        //   '',
-        //   '',
-        //   '<VirtualHost *:81>',
-        //   '    DocumentRoot "{{ROOT}}"',
-        //   // '    ServerName orion',
-        //   '    <Directory "{{ROOT}}">',
-        //   '        Options Indexes FollowSymLinks Includes ExecCGI',
-        //   '        Order allow,deny',
-        //   '        Allow from all',
-        //   '    </Directory>',
-        //   '</VirtualHost>'
-        // ].join('\n').replace(/{{ROOT}}/g, dest);
-
 
         var template = `
 <VirtualHost *:81>
@@ -125,13 +82,18 @@ var pmwikiupdate = function() {
 
     var installExtras = function(path, name) {
 
+        var file = 'd:/projects/dev-scripts/cookbooks/bootstrap-skin.0.2.5.zip';
+        var dest = path + 'pub/skins/';
+        console.log(`unzipping ${file} to ${dest}`);
+        unzip(file, dest);
+
         var newConfig = `
-##$Skin = 'bootstrap-fluid';
+$Skin = 'bootstrap-fluid';
 
 ##  $WikiTitle is the name that appears in the browser's title bar.
 $WikiTitle = '${name}';`;
 
-        var localConfig = path + '/local/config.php';
+        var localConfig = path + 'local/config.php';
 
         // TODO: copy this file d:\projects\dev-scripts\test\docs\sample-config.php
         var sampleConfig = path + '/docs/sample-config.php';
@@ -182,7 +144,7 @@ $WikiTitle = '${name}';`;
         var path = 'http://localhost:81/projects/' + temper + 'pmwiki.php';
         console.log(path);
         restartXampp();
-
+        exec(`start ${path}`);
     };
 
     if (config.useLocal) {
