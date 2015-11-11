@@ -1,0 +1,5 @@
+{
+        "destination": "/local/config.php",
+        "source": "/docs/sample-config.php",
+        "config": "$WikiTitle = '${name}';"
+}

@@ -2,12 +2,14 @@
   "name": "dev-scripts",
   "version": "1.0.0",
   "description": "pmwiki development scripts",
+  "repository": "https://github.com/MichaelPaulukonis/pmwiki-dev",
   "main": "pmwiki.update.js",
   "directories": {
     "test": "test"
   },
   "dependencies": {
     "fs-extra": "^0.26.0",
+    "glob": "^5.0.15",
     "node-zip": "^1.1.1"
   },
   "devDependencies": {},
@@ -15,5 +17,5 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Michael Paulukonis",
-  "license": "ISC"
+  "license": "MIT"
 }

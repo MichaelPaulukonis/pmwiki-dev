@@ -1,0 +1,6 @@
+{
+    "source": "d:/projects/dev-scripts/cookbooks/bootstrap-skin.0.2.5.zip",
+    "destination": "/pub/skins/",
+    "config": "$Skin = 'bootstrap-fluid';"
+
+}
